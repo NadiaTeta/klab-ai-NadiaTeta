@@ -1,0 +1,10 @@
+# Iteration Log
+
+| **#** | **What I changed**                                                           | **Why I expected it to help**                                     |     **CV** |     **LB** | **What I concluded**                                                   |
+| ----- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------- | ---------: | ---------: | ---------------------------------------------------------------------- |
+| **1** | Baseline: median/mode fill, logistic regression, no new features             | Prove the pipeline works end to end                               | **0.7860** | **0.7905** | Pipeline works — CV and LB are close, so validation can be trusted     |
+| **2** | Engineered features: Group, Cabin split, spending totals                     | Cabin/group looked predictive; spending relates to CryoSleep      | **0.7921** | **0.7928** | Small, real gain — LB moved with CV, features generalize               |
+| **3** | Switched model to gradient boosting                                          | Tree models handle mixed data better than linear models           | **0.8085** | **0.8045** | Biggest gain so far — a real effect, not noise                         |
+| **4** | Tuned gradient boosting (GridSearchCV: learning rate, iterations, tree size) | Default settings are rarely optimal                               | **0.8123** | **0.8055** | Small, genuine gain — CV and LB moved together                         |
+| **5** | Added GroupTransportRate: group-mates' transport rate, own label excluded    | Deck G had the worst accuracy; travel groups often share outcomes | **0.8128** | **0.8078** | Best leaderboard score — bigger gain than CV predicted                 |
+| **6** | Swapped model to CatBoost                                                    | Wanted a genuinely different model family, not just a tweak       | **0.8150** | **0.8034** | Best CV score, but worst leaderboard score — didn't generalize as well |
