@@ -1,0 +1,199 @@
+# Small English NER test set about Rwanda, in CoNLL-2003 BIO format.
+# One "word TAG" pair per line, a blank line between sentences. Lines starting with # are comments.
+# Tags: B-/I- + PER (person), ORG (organisation), LOC (location), MISC (other names, e.g. languages, nationalities).
+# Conventions (same as CoNLL-2003): titles such as "President" are O, "The" before a name is O, dates are O.
+
+WASAC B-ORG
+announced O
+that O
+water O
+supply O
+will O
+be O
+interrupted O
+in O
+Kicukiro B-LOC
+on O
+Saturday O
+. O
+
+The O
+Rwanda B-ORG
+Development I-ORG
+Board I-ORG
+said O
+tourism O
+revenue O
+grew O
+last O
+year O
+. O
+
+Residents O
+of O
+Gikondo B-LOC
+and O
+Remera B-LOC
+complained O
+to O
+WASAC B-ORG
+about O
+water O
+shortages O
+. O
+
+Eric B-PER
+Niyonzima I-PER
+collects O
+water O
+from O
+a O
+public O
+tap O
+in O
+Nyagatare B-LOC
+every O
+morning O
+. O
+
+The O
+University B-ORG
+of I-ORG
+Rwanda I-ORG
+has O
+a O
+large O
+campus O
+in O
+Huye B-LOC
+. O
+
+MTN B-ORG
+Rwanda I-ORG
+sends O
+SMS O
+alerts O
+to O
+customers O
+in O
+Rusizi B-LOC
+when O
+the O
+network O
+is O
+down O
+. O
+
+RwandAir B-ORG
+flies O
+from O
+Kigali B-LOC
+to O
+London B-LOC
+. O
+
+Ugandan B-MISC
+tourists O
+often O
+visit O
+Lake B-LOC
+Kivu I-LOC
+in O
+Rubavu B-LOC
+. O
+
+Many O
+Rwandans B-MISC
+watched O
+APR B-ORG
+FC I-ORG
+play O
+Rayon B-ORG
+Sports I-ORG
+at O
+Amahoro B-LOC
+Stadium I-LOC
+. O
+
+Water O
+pipes O
+were O
+repaired O
+in O
+Nyamirambo B-LOC
+after O
+heavy O
+rain O
+in O
+Kigali B-LOC
+. O
+
+Kinyarwanda B-MISC
+is O
+spoken O
+by O
+almost O
+everyone O
+in O
+Rwanda B-LOC
+. O
+
+The O
+Rwanda B-ORG
+Utilities I-ORG
+Regulatory I-ORG
+Authority I-ORG
+approved O
+new O
+water O
+tariffs O
+. O
+
+Aline B-PER
+Mukamana I-PER
+, O
+a O
+teacher O
+in O
+Musanze B-LOC
+, O
+said O
+her O
+village O
+has O
+had O
+no O
+water O
+for O
+a O
+week O
+. O
+
+WASAC B-ORG
+customers O
+in O
+Kimironko B-LOC
+can O
+report O
+leaks O
+to O
+the O
+WASAC B-ORG
+call O
+centre O
+. O
+
+The O
+African B-ORG
+Leadership I-ORG
+University I-ORG
+and O
+Carnegie B-ORG
+Mellon I-ORG
+University I-ORG
+Africa I-ORG
+are O
+both O
+in O
+Kigali B-LOC
+. O
