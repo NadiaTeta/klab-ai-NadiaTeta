@@ -183,6 +183,27 @@ class EmbeddingFeaturizer:
         return self.scaler.transform(self._raw(sentences))
 
 
+def featurizer_state(featurizer):
+    """Everything needed to rebuild a fitted featurizer later, except the embedding lookup
+    (a lookup wraps the vectors, which are too big to save with the model)."""
+    if isinstance(featurizer, BaselineFeaturizer):
+        return {"kind": "baseline", "vectorizer": featurizer.vectorizer}
+    return {"kind": "embedding", "dim": featurizer.dim,
+            "spelling_vectorizer": featurizer.spelling_vectorizer, "scaler": featurizer.scaler}
+
+
+def featurizer_from_state(state, lookup=None):
+    """Rebuild a featurizer saved with featurizer_state(); embedding featurizers need a lookup."""
+    if state["kind"] == "baseline":
+        featurizer = BaselineFeaturizer()
+        featurizer.vectorizer = state["vectorizer"]
+        return featurizer
+    featurizer = EmbeddingFeaturizer(lookup, state["dim"])
+    featurizer.spelling_vectorizer = state["spelling_vectorizer"]
+    featurizer.scaler = state["scaler"]
+    return featurizer
+
+
 def oov_stats(sentences, lookup):
     """How many tokens / distinct words the embedding doesn't know."""
     all_words = [w for s in sentences for w in s]

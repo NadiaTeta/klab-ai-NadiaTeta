@@ -16,7 +16,7 @@ Every number in this README comes from the saved outputs of the notebooks in thi
 | 6 | SMS spam classifier | [spam_classifier.ipynb](notebooks/spam_classifier.ipynb) | TF-IDF + Linear SVM | Catches 93.1% of spam on unseen messages |
 | 7 | Evaluating unsupervised models (lab) | [Evaluating Unsupervised Models - Lab.ipynb](notebooks/Evaluating%20Unsupervised%20Models%20-%20Lab.ipynb) | K-Means, GMM, DBSCAN, PCA | Choosing k without labels |
 | 8 | Word embeddings exploration | [word_embeddings.ipynb](notebooks/word_embeddings.ipynb) | Pre-trained GloVe vectors | king − man + woman = queen |
-| 9 | **Named Entity Recognition with word embeddings** | [ner_embeddings.ipynb](notebooks/ner_embeddings.ipynb) + [src/ner_utils.py](src/ner_utils.py) | CoNLL-2003, GloVe, FastText | Overall F1 0.737 → 0.819 with embeddings |
+| 9 | **Named Entity Recognition with word embeddings** | [ner_embeddings.ipynb](notebooks/ner_embeddings.ipynb) + [src/ner_utils.py](src/ner_utils.py) + demo [app.py](app.py) | CoNLL-2003, GloVe, FastText | Overall F1 0.737 → 0.819 with embeddings |
 
 ## Project structure
 
@@ -37,6 +37,8 @@ klab-ai-NadiaTeta/
 │
 ├── src/
 │   └── ner_utils.py                 # reusable NER helpers (project 9)
+├── models/                          # saved NER models for the demo app (project 9)
+├── app.py                           # Gradio demo app for the NER models (project 9)
 │
 ├── reports/
 │   ├── day01_chart.png, day01_reflection.md
@@ -85,7 +87,7 @@ Then activate the environment again.
 pip install -r requirements.txt
 ```
 
-This installs everything the notebooks need, including NumPy, Pandas, scikit-learn, Matplotlib, Jupyter, NLTK (spam classifier), gensim (word embeddings), Hugging Face `datasets` and `seqeval` (NER).
+This installs everything the notebooks need, including NumPy, Pandas, scikit-learn, Matplotlib, Jupyter, NLTK (spam classifier), gensim (word embeddings), Hugging Face `datasets` and `seqeval` (NER), and Gradio (the NER demo app).
 
 ### 4. Smoke test
 
@@ -275,6 +277,20 @@ Every model tags **one word at a time**. Only the way each word is described cha
 2. Open `notebooks/ner_embeddings.ipynb`, select the `.venv` kernel, and **Run All**.
 3. The first run downloads CoNLL-2003 (from Hugging Face), GloVe (~66 MB) and FastText (~1 GB). FastText is saved to `data/embeddings/` and memory-mapped on later runs. None of these files are committed to git (see `.gitignore`).
 4. Training all seven models takes a while on a laptop. The FastText models are the slowest, because each word has 912 features.
+
+### Demo
+
+`app.py` is a small [Gradio](https://www.gradio.app/) web page for presenting the models live. You type or paste an English sentence (or click one of the examples), press **Analyze**, and see the **baseline** and the **best model (FastText + MLP)** side by side. Each model's entities are highlighted in colour by type, and a table lists every entity it found.
+
+```powershell
+.venv\Scripts\Activate.ps1
+python app.py
+```
+
+Then open **http://127.0.0.1:7860** in your browser. Stop the app with `Ctrl+C` in the terminal.
+
+- The trained models are saved in `models/` (`baseline.joblib`, `best.joblib`) by the **last cell of the notebook**, so the app starts in seconds without retraining. They are small (about 8 MB together), so they are committed.
+- The app opens the FastText vectors memory-mapped from `data/embeddings/`. If that folder doesn't exist yet (for example on a fresh clone), the app downloads FastText (~1 GB) on its first start, or you can run the notebook once first.
 
 The reusable functions live in `src/ner_utils.py`: `load_hf_ner`, `read_conll_file`, `BaselineFeaturizer`, `EmbeddingFeaturizer`, `make_lookup`, `train_logreg_with_validation`, `make_random_forest`, `make_mlp`, `evaluate`, `entity_recall_by_seen` and `predict_entities`. They work with any dataset given as lists of tokens and BIO tags, and with any embedding given as a "word → vector" function. So the same code can be pointed at a Kinyarwanda dataset such as MasakhaNER, or at other vectors.
 
