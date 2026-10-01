@@ -120,5 +120,16 @@ with gr.Blocks(title="NER with Word Embeddings") as demo:
     analyze_btn.click(analyze, inputs=sentence, outputs=outputs, api_name="analyze")
     sentence.submit(analyze, inputs=sentence, outputs=outputs)
 
+# Always show the light theme, even when the computer is in dark mode (easier to read on a projector)
+FORCE_LIGHT = """
+() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("__theme") !== "light") {
+        url.searchParams.set("__theme", "light");
+        window.location.replace(url.href);
+    }
+}
+"""
+
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(theme=gr.themes.Soft(primary_hue="blue"), js=FORCE_LIGHT)
