@@ -267,7 +267,7 @@ Every model tags **one word at a time**. Only the way each word is described cha
 1. **Baseline (no embeddings):** the word itself (lowercased), the previous and next word, its last 3 letters, plus **spelling features** (starts with a capital? ALL CAPS? has digits or a hyphen? first word of the sentence? neighbours capitalised?). This gives 65,784 mostly-zero columns, and the classifier is Logistic Regression.
 2. **With embeddings:** the embedding of the **previous + current + next word**, plus **the same spelling features**. GloVe gives 3 × 50 + 12 = 162 dense columns, and FastText 3 × 300 + 12 = 912. Unknown words get a zero vector. Capital letters are kept as spelling features because GloVe is lowercase and capitals are one of the strongest NER clues.
 3. **Three classifiers on each embedding:** Logistic Regression (a straight-line model), Random Forest (100 trees, non-linear) and a small neural network (an MLP with one hidden layer of 256 units and early stopping). All are trained on the **full** training set.
-4. **Choices on validation, one final test:** Logistic Regression's `C` was chosen on the validation set from 0.001 to 100. Random Forest and MLP use fixed, reasonable settings. The best model is chosen by **overall validation F1**, and every model is evaluated **once** on the test set with `seqeval`. This means **entity-level** precision, recall and F1 per type: "Paul Kagame" only counts as correct if both words get the right tags.
+4. **Choices on validation, one final test:** Logistic Regression's `C` was chosen on the validation set from 0.001 to 100. Random Forest and MLP use fixed, reasonable settings. The best model is chosen by **overall validation F1**, and every model is evaluated **once** on the test set with `seqeval`. This means **entity-level** precision, recall and F1 per type: "Eric Niyonzima" only counts as correct if both words get the right tags.
 
 ### How to run
 
@@ -340,7 +340,7 @@ From `predict_entities(sentence)` using the best model (FastText + MLP):
 | Sentence | Predicted entities |
 |---|---|
 | WASAC announced that water will be cut in Kicukiro and Gikondo on Friday. | ORG: WASAC · LOC: Kicukiro · LOC: Gikondo |
-| Paul Kagame met the president of Kenya in Nairobi. | PER: Paul Kagame · MISC: Kenya ✘ · LOC: Nairobi |
+| Eric Niyonzima met the president of Kenya in Nairobi. | PER: Eric Niyonzima · MISC: Kenya ✘ · LOC: Nairobi |
 | Nadia studies software engineering at the African Leadership University in Kigali. | PER: Nadia · MISC: African ✘ · ORG: Leadership University ✘ · LOC: Kigali |
 | Residents of Nyamirambo said WASAC has not restored water since Monday. | LOC: Nyamirambo · ORG: WASAC |
 
